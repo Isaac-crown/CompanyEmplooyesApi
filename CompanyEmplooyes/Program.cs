@@ -51,6 +51,7 @@ builder.Services.AddScoped<IEmployeeLinks, EmployeeLinks>();
 builder.Services.AddCustomMediaTypes();
 
 builder.Services.AddScoped<ValidateMediaTypeAttribute>();
+builder.Services.ConfigureVersioning();
 
 builder.Services.AddControllers();
 

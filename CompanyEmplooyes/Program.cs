@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using CompanyEmplooyes.Extension;
 using CompanyEmplooyes.Utility;
 using Contracts.Interface;
@@ -60,6 +61,11 @@ builder.Services.ConfigureVersioning();
 builder.Services.ConfigureResponseCaching();
 builder.Services.ConfigureHttpCacheHeaders();
 
+builder.Services.AddMemoryCache();
+builder.Services.ConfigureRateLimitingOptions();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddAuthentication();
+builder.Services.ConfigureIdentity();
 
 builder.Services.AddControllers();
 
@@ -94,9 +100,11 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.All
 });
+app.UseIpRateLimiting();
 app.UseCors("CorsPolicy");
 app.UseResponseCaching();
 app.UseHttpCacheHeaders();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
